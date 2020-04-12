@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "Trello Design",
+  "version": "1.0.0",
+  "description": "Simple Trello Design.",
+  "content_scripts": [
+    {
+      "run_at": "document_idle",
+      "matches": ["https://trello.com/b/*"],
+      "css": ["src/user.css"],
+      "js": ["plugin/jquery/jquery-3.5.0.min.js","src/user.js"]
+    }
+  ],
+  "browser_action": {
+    "default_icon": "res/icon_32x32.png",
+    "default_title": "Trello Design",
+    "default_popup": "src/popup.html"
+  },
+  "permissions": [
+    "https://trello.com/b/*"
+  ]
+}

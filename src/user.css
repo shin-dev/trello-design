@@ -1,0 +1,26 @@
+/*
+ * © 2020 シン合同会社 - SHIN LLC
+ * https://shin-dev.com
+ */
+
+/* CardNumber */
+.td-badges .td-badges__badge {
+  color: #5e6c84;
+  display: inline-block;
+  margin: 0 4px 4px 0;
+  max-width: 100%;
+  min-height: 20px;
+  overflow: hidden;
+  position: relative;
+  padding: 2px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+
+.td-badges .td-badges__badge-text {
+  font-size: 12px;
+  padding: 0 4px 0 2px;
+  vertical-align: top;
+  white-space: nowrap;
+}
