@@ -144,7 +144,6 @@ $(function () {
     }
     if (caching && updateCardListCache) {
       config.cache.cardLabels = cardLabelCache;
-      log('refreshCardLabels');
     }
   }
 
