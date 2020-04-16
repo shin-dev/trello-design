@@ -8,7 +8,7 @@ $(function () {
   var config = {
     debug: false,
     initId: null,
-    initTime: 5000,
+    initTime: 1000,
     refreshId: null,
     refreshTime: 1000,
     refreshEnable: true,
@@ -151,7 +151,7 @@ $(function () {
   config.initId = setInterval(function () {
     log('Hello Plug-in!');
     // 初期化
-    refresh(true);
+    refresh();
     // ループ設定
     if (config.refreshEnable) {
       config.refreshId = setInterval(function () {
