@@ -1,3 +1,63 @@
-<div>
-  <p>Trello Design</p>
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      .panel {
+        background: #9da9d3;
+        border: solid 1px #4c5982;
+        border-radius: 20px;
+        padding: 20px;
+        min-width: 280px;
+        display: inline-block;
+      }
+      .title {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #607680;
+        text-decoration: underline #607680;
+        font-style: italic;
+      }
+      .table {
+        margin-top: 10px;
+      }
+      .label {
+      }
+      input[type="checkbox"] {
+        margin-left: 0;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="panel">
+      <h1 class="title">Trello Design</h1>
+      <table class="table" border="0">
+        <tr>
+          <td class="label">Update time (ms):</td>
+          <td><input id="updateInterval" type="number" min="100" max="10000" step="100"></td>
+        </tr>
+        <tr>
+          <td class="label">Apply label to card color :</td>
+          <td><input id="cardColorEnabled" type="checkbox"></td>
+        </tr>
+        <tr>
+          <td class="label">Card color opacity :</td>
+          <td><input id="cardColorOpacity" type="number" min="0" max="1.0" step="0.1"></td>
+        </tr>
+        <tr>
+          <td class="label">Show card number :</td>
+          <td><input id="cardNumberEnabled" type="checkbox"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button id="reset">Reset</button></td>
+        </tr>
+      </table>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
