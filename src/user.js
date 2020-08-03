@@ -3,37 +3,55 @@
  * https://shin-dev.com
  */
 
-const defaults = {
-  debug: false,
-  updatePath: /^\/b\//, // https://trello.com/b/*
-  updateId: null,
-  updateInterval: 1000,
-  cardColorEnabled: true,
-  cardColorOpacity: 0.7,
-  cardNumberEnabled: true
-}
-
 class Application {
+  static createDefaultOptions() {
+    return {
+      updateInterval: 1000,
+      cardColorEnabled: true,
+      cardColorOpacity: 0.7,
+      cardNumberEnabled: true,
+      cardCoverEnabled: true,
+      windowSizeAdjustment: true,
+      windowSize: 80,
+      windowSizeMax: 960
+    }
+  }
+
   constructor(options = {}) {
-    this.config = Object.assign(defaults, options)
+    const defaults = Application.createDefaultOptions()
+    this.config = Object.assign({}, defaults, options)
+
+    // Trello Board Only
+    // CardList (https://trello.com/b/*)
+    // CardDetail (https://trello.com/c/*)
+    this.updatePath = /^\/[bc]\//
+
+    // Instance variables
+    this.debug = false
+    this.updateId = null
+
     this.log('Hello Plug-in!')
-    this.log(JSON.stringify(this.config))
+    this.log('constructor\n' + JSON.stringify(this.config))
   }
 
   log(message) {
-    if (!this.config.debug) return
+    if (!this.debug) return
     console.log('[Trello Design] ' + message)
   }
 
   start() {
-    this.config.updateId = setInterval(() => this.update(), this.config.updateInterval)
+    this.update()
+    this.updateId = setInterval(() => this.update(), this.config.updateInterval)
   }
 
   update() {
     // Trello Board Only
-    if(!this.config.updatePath.test(window.location.pathname)) {
+    if(!this.updatePath.test(window.location.pathname)) {
       return
     }
+
+    // Style
+    this.updateStyle()
 
     // CardNumber
     const cards = $('.list-card')
@@ -48,6 +66,47 @@ class Application {
       const cardLabel = $(cardLabels[i])
       this.updateCardColor(cardLabel)
     }
+  }
+
+  updateStyle(force = false) {
+    let style = $('#js-trello-design-style')
+    if(!style.length) {
+      $('head').append('<style id="js-trello-design-style"></style>')
+      style = $('#js-trello-design-style')
+    } else if(!force) {
+      return
+    }
+    let css = ''
+    // 一覧でのカバー画像表示
+    const coverStyle = this.config.cardCoverEnabled ? 'block' : 'none'
+    css += `
+      .js-card-cover { display: ${coverStyle} !important; }
+    `
+    // 詳細でカードサイズを調整する
+    if(this.config.windowSizeAdjustment) {
+      css += `
+        .window {
+          width: ${this.config.windowSize}% !important;
+          max-width: ${this.config.windowSizeMax}px !important;
+          background-color: white !important;
+          margin: 20px !important;
+          border-radius: 8px;
+        }
+        .window-main-col {
+          width: calc(80% - 32px) !important;
+          margin: 0 !important;
+          padding-left: 16px !important;
+          padding-right: 16px !important;
+        }
+        .window-sidebar {
+          width: calc(20% - 32px) !important;
+          margin: 0 !important;
+          padding-left: 16px !important;
+          padding-right: 16px !important;
+        }
+      `
+    }
+    style.html(css)
   }
 
   updateCardNumber(card) {
@@ -125,22 +184,37 @@ class Application {
   refresh(options) {
     this.log('refresh\n' + JSON.stringify(options))
 
-    const intervalChanged = (!!options.updateInterval && this.config.updateInterval !== options.updateInterval)
-    this.config = Object.assign(this.config, options)
+    const intervalChanged = (options.updateInterval != null && this.config.updateInterval !== options.updateInterval)
+    const styleChanged = (
+      (options.cardCoverEnabled != null && this.config.cardCoverEnabled !== options.cardCoverEnabled) ||
+      (options.windowSizeAdjustment != null && this.config.windowSizeAdjustment !== options.windowSizeAdjustment) ||
+      (options.windowSize != null && this.config.windowSize !== options.windowSize) ||
+      (options.windowSizeMax != null && this.config.windowSizeMax !== options.windowSizeMax)
+    )
+    this.config = Object.assign({}, this.config, options)
+
+    if(styleChanged) {
+      this.log('updateStyle')
+
+      this.updateStyle(true)
+    }
+
     if(intervalChanged) {
       this.log('intervalChanged\n' + this.config.updateInterval)
 
-      clearInterval(this.config.updateId)
+      clearInterval(this.updateId)
       this.start()
     }
   }
 }
 
 $(() => {
-  chrome.storage.local.set({defaults: defaults})
-  chrome.storage.local.get('options', (result) => {
-    const options = result.options
-    window.trelloDesign = new Application(options)
-    window.trelloDesign.start()
+  const defaults = Application.createDefaultOptions()
+  chrome.storage.local.set({defaults: defaults}, () => {
+    chrome.storage.local.get(null, (result) => {
+      const options = result.options
+      window.trelloDesign = new Application(options)
+      window.trelloDesign.start()
+    })
   })
 })

@@ -4,24 +4,31 @@
     <meta charset="utf-8">
     <style>
       .panel {
-        background: #9da9d3;
+        background: rgba(7, 172, 255, 0.75);
         border: solid 1px #4c5982;
         border-radius: 20px;
         padding: 20px;
-        min-width: 280px;
-        display: inline-block;
+        min-width: 300px;
+        display: block;
       }
-      .title {
+      .title, .title > * {
         margin: 0;
+        padding: 0;
         font-size: 1.2rem;
-        color: #607680;
+        font-weight: bold;
+        color: #ffffff;
         text-decoration: underline #607680;
-        font-style: italic;
       }
       .table {
         margin-top: 10px;
       }
-      .label {
+      .separator {
+        line-height: 1.1rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        border-bottom: 1px gray;
+        text-decoration: underline #607680;
+        font-style: italic;
       }
       input[type="checkbox"] {
         margin-left: 0;
@@ -33,30 +40,82 @@
     </style>
   </head>
   <body>
-    <main class="panel">
-      <h1 class="title">Trello Design</h1>
-      <table class="table" border="0">
-        <tr>
-          <td class="label">Update time (ms):</td>
-          <td><input id="updateInterval" type="number" min="100" max="10000" step="100"></td>
-        </tr>
-        <tr>
-          <td class="label">Apply label to card color :</td>
-          <td><input id="cardColorEnabled" type="checkbox"></td>
-        </tr>
-        <tr>
-          <td class="label">Card color opacity :</td>
-          <td><input id="cardColorOpacity" type="number" min="0" max="1.0" step="0.1"></td>
-        </tr>
-        <tr>
-          <td class="label">Show card number :</td>
-          <td><input id="cardNumberEnabled" type="checkbox"></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><button id="reset">Reset</button></td>
-        </tr>
-      </table>
+    <main>
+      <!-- Other web site -->
+      <div id="js-inactive-contents" class="panel" style="display: block">
+        <!-- Title -->
+        <h1 class="title">
+          <a href="https://chrome.google.com/webstore/detail/trello-design/bddemgibaehjbclgpppopnlcaohlikki">
+            Trello Design
+          </a>
+        </h1>
+        <!-- Contents -->
+        <div style="margin-top: 10px">
+          <a href="https://trello.com">
+            Go to Trello
+          </a>
+        </div>
+      </div>
+      <!-- Trello web site (https://trello.com/*) -->
+      <div id="js-active-contents" class="panel" style="display: none">
+        <!-- Title -->
+        <h1 class="title">
+          <a href="https://chrome.google.com/webstore/detail/trello-design/bddemgibaehjbclgpppopnlcaohlikki">
+            Trello Design
+          </a>
+        </h1>
+        <!-- Contents -->
+        <table class="table" border="0">
+          <tr>
+            <td class="label">Update time (ms):</td>
+            <td><input id="updateInterval" type="number" min="100" max="10000" step="100"></td>
+          </tr>
+          <tr>
+            <td class="separator">Card Color</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="label">Apply label to card color :</td>
+            <td><input id="cardColorEnabled" type="checkbox"></td>
+          </tr>
+          <tr>
+            <td class="label">Card color opacity :</td>
+            <td><input id="cardColorOpacity" type="number" min="0" max="1.0" step="0.1"></td>
+          </tr>
+          <tr>
+            <td class="separator">Card Window</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="label">Window size adjustment :</td>
+            <td><input id="windowSizeAdjustment" type="checkbox"></td>
+          </tr>
+          <tr>
+            <td class="label">Window size (%):</td>
+            <td><input id="windowSize" type="number" min="10" max="100" step="10"></td>
+          </tr>
+          <tr>
+            <td class="label">Window max size (px):</td>
+            <td><input id="windowSizeMax" type="number" min="100" max="3000" step="10"></td>
+          </tr>
+          <tr>
+            <td class="separator">Other</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="label">Show card number :</td>
+            <td><input id="cardNumberEnabled" type="checkbox"></td>
+          </tr>
+          <tr>
+            <td class="label">Show card cover on card list :</td>
+            <td><input id="cardCoverEnabled" type="checkbox"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="reset">Reset</button></td>
+          </tr>
+        </table>
+      </div>
     </main>
     <script src="popup.js"></script>
   </body>

@@ -24,3 +24,8 @@
   vertical-align: top;
   white-space: nowrap;
 }
+
+/* チラつき防止のためカバー画像は最初非表示 */
+.js-card-cover {
+  display: none;
+}
