@@ -38,15 +38,17 @@ module.exports = {
       'warn',
       'single'
     ],
-    'no-console': [
-      'warn',
-      {
-        'allow': [
-          'warn',
-          'error'
-        ]
-      }
-    ],
+    // 'no-console': [
+    //   'warn',
+    //   {
+    //     'allow': [
+    //       'warn',
+    //       'error'
+    //     ]
+    //   }
+    // ],
+    // for debug
+    'no-console': 'off',
     'semi': [
       'error',
       'never',
@@ -95,8 +97,6 @@ module.exports = {
     'computed-property-spacing': 'error',
     'key-spacing': 'error',
     'keyword-spacing': 'error',
-    // for debug
-    'no-console': 'off',
     // for chrome, process
     'no-undef': 'off'
   }
