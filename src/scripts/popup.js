@@ -44,7 +44,7 @@ window.onload = () => {
           const min = Number(target.min)
           const max = Number(target.max)
           const value = Number(target.value)
-          if(value === Number.NaN) {
+          if (value === Number.NaN) {
             target.value = defaultValue
           }
           else if (value < min) {

@@ -1,3 +1,4 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WriteFileWebpackPlugin = require('write-file-webpack-plugin')
 const ExtensionReloader = require('webpack-extension-reloader')
@@ -15,11 +16,24 @@ module.exports = {
     background: `./${srcScriptsContext}/background.js`,
     popup: `./${srcScriptsContext}/popup.js`
   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
+      }
+    ]
+  },
   output: {
     path: outputScriptsPath,
     filename: '[name].js'
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new ExtensionReloader({
       port: 9090,
       reloadPage: true,
