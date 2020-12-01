@@ -7,19 +7,25 @@
     {
       "run_at": "document_idle",
       "matches": ["https://trello.com/*"],
-      "css": ["src/user.css"],
-      "js": ["plugin/jquery/jquery-3.5.0.min.js","src/user.js"]
+      "css": ["scripts/content.css"],
+      "js": ["scripts/content.js"]
     }
   ],
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
+  "options_ui": {
+    "page": "scripts/options.html"
+  },
   "icons": {
-    "16": "res/icon_16x16.png",
-    "48": "res/icon_48x48.png",
-    "128": "res/icon_128x128.png"
+    "16": "assets/images/icon_16x16.png",
+    "48": "assets/images/icon_48x48.png",
+    "128": "assets/images/icon_128x128.png"
   },
   "browser_action": {
-    "default_icon": "res/icon_32x32.png",
+    "default_icon": "assets/images/icon_32x32.png",
     "default_title": "Trello Design",
-    "default_popup": "src/popup.html"
+    "default_popup": "popup.html"
   },
   "permissions": [
     "storage",

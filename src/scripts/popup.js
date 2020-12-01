@@ -25,7 +25,7 @@ window.onload = () => {
       // Initialize
       chrome.storage.local.get(null, (result) => {
         // failsafe
-        if(result == null) {
+        if (result == null) {
           return
         }
 
@@ -47,10 +47,10 @@ window.onload = () => {
           if(value === Number.NaN) {
             target.value = defaultValue
           }
-          else if(value < min) {
+          else if (value < min) {
             target.value = min
           }
-          else if(value > max) {
+          else if (value > max) {
             target.value = max
           }
         }
