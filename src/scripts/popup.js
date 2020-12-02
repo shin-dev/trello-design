@@ -1,3 +1,7 @@
+/*
+ * © 2020 シン合同会社 - SHIN LLC
+ * https://shin-dev.com
+ */
 window.onload = () => {
   // Initialize
   const links = document.getElementsByTagName('a')
@@ -25,7 +29,7 @@ window.onload = () => {
       // Initialize
       chrome.storage.local.get(null, (result) => {
         // failsafe
-        if(result == null) {
+        if (result == null) {
           return
         }
 
@@ -44,13 +48,13 @@ window.onload = () => {
           const min = Number(target.min)
           const max = Number(target.max)
           const value = Number(target.value)
-          if(value === Number.NaN) {
+          if (value === Number.NaN) {
             target.value = defaultValue
           }
-          else if(value < min) {
+          else if (value < min) {
             target.value = min
           }
-          else if(value > max) {
+          else if (value > max) {
             target.value = max
           }
         }

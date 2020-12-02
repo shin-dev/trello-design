@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "Trello Design",
+  "version": "1.1.0",
+  "description": "Provides the Trello extension. For example, you can display the label color and card number.",
+  "content_scripts": [
+    {
+      "run_at": "document_idle",
+      "matches": ["https://trello.com/*"],
+      "css": ["scripts/content.css"],
+      "js": ["scripts/content.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": false
+  },
+  "options_ui": {
+    "page": "scripts/options.html",
+    "chrome_style": true
+  },
+  "icons": {
+    "16": "assets/images/icon_16x16.png",
+    "48": "assets/images/icon_48x48.png",
+    "128": "assets/images/icon_128x128.png"
+  },
+  "browser_action": {
+    "default_icon": "assets/images/icon_32x32.png",
+    "default_title": "Trello Design",
+    "default_popup": "scripts/popup.html"
+  },
+  "permissions": [
+    "storage",
+    "https://trello.com/*"
+  ]
+}

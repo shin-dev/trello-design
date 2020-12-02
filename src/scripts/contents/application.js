@@ -1,9 +1,6 @@
-/*
- * © 2020 シン合同会社 - SHIN LLC
- * https://shin-dev.com
- */
+import $ from 'jquery'
 
-class Application {
+export class Application {
   static createDefaultOptions() {
     return {
       updateInterval: 1000,
@@ -27,10 +24,10 @@ class Application {
     this.updatePath = /^\/[bc]\//
 
     // Instance variables
-    this.debug = false
+    this.debug = process.env.NODE_ENV === 'development'
     this.updateId = null
 
-    this.log('Hello Plug-in!')
+    this.log(`Hello Trello Design! (NODE_ENV: ${process.env.NODE_ENV})`)
     this.log('constructor\n' + JSON.stringify(this.config))
   }
 
@@ -46,7 +43,7 @@ class Application {
 
   update() {
     // Trello Board Only
-    if(!this.updatePath.test(window.location.pathname)) {
+    if (!this.updatePath.test(window.location.pathname)) {
       return
     }
 
@@ -70,10 +67,10 @@ class Application {
 
   updateStyle(force = false) {
     let style = $('#js-trello-design-style')
-    if(!style.length) {
+    if (!style.length) {
       $('head').append('<style id="js-trello-design-style"></style>')
       style = $('#js-trello-design-style')
-    } else if(!force) {
+    } else if (!force) {
       return
     }
     let css = ''
@@ -83,7 +80,7 @@ class Application {
       .js-card-cover { display: ${coverStyle} !important; }
     `
     // 詳細でカードサイズを調整する
-    if(this.config.windowSizeAdjustment) {
+    if (this.config.windowSizeAdjustment) {
       css += `
         .window {
           width: ${this.config.windowSize}% !important;
@@ -114,7 +111,7 @@ class Application {
 
     // No.が変更されることはないので追加済みなら処理しない
     const customBadges = badges.find('.js-td-badges')
-    if (!!customBadges.length) {
+    if (customBadges.length) {
       // リセット
       if (!this.config.cardNumberEnabled) {
         customBadges.remove()
@@ -193,13 +190,13 @@ class Application {
     )
     this.config = Object.assign({}, this.config, options)
 
-    if(styleChanged) {
+    if (styleChanged) {
       this.log('updateStyle')
 
       this.updateStyle(true)
     }
 
-    if(intervalChanged) {
+    if (intervalChanged) {
       this.log('intervalChanged\n' + this.config.updateInterval)
 
       clearInterval(this.updateId)
@@ -207,14 +204,3 @@ class Application {
     }
   }
 }
-
-$(() => {
-  const defaults = Application.createDefaultOptions()
-  chrome.storage.local.set({defaults: defaults}, () => {
-    chrome.storage.local.get(null, (result) => {
-      const options = result.options
-      window.trelloDesign = new Application(options)
-      window.trelloDesign.start()
-    })
-  })
-})
