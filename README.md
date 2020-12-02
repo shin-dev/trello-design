@@ -4,6 +4,26 @@ Simple Trello Design
 ## Repository
 https://github.com/shin-dev/trello-design
 
+### Main
+git@github.com:shin-dev/trello-design.git 
+
+### Wiki
+git@github.com:shin-dev/trello-design.wiki.git
+
+## Branches
+
+- master  
+Current version.  
+(Released to chrome website)
+
+- develop  
+Next version.  
+(Merge to master after debugging, and released to chrome website)
+
+- feature/foo  
+Additional features.
+(Merge pull request into develop)
+
 ## Development
 
 ```scripts
