@@ -16,9 +16,11 @@
     "webpack": "^4",
     "webpack-cli": "^4.2.0",
     "webpack-extension-reloader": "^1.1.4",
+    "webpack-zip-plugin": "^0.1.6",
     "write-file-webpack-plugin": "^4.5.1"
   },
   "scripts": {
-    "dev": "NODE_ENV=development webpack --config webpack.development.js --watch"
+    "dev": "NODE_ENV=development webpack --config webpack.development.js --watch",
+    "release": "NODE_ENV=production webpack --config webpack.production.js"
   }
 }

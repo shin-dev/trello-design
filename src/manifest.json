@@ -12,10 +12,12 @@
     }
   ],
   "background": {
-    "scripts": ["scripts/background.js"]
+    "scripts": ["scripts/background.js"],
+    "persistent": false
   },
   "options_ui": {
-    "page": "scripts/options.html"
+    "page": "scripts/options.html",
+    "chrome_style": true
   },
   "icons": {
     "16": "assets/images/icon_16x16.png",
@@ -25,7 +27,7 @@
   "browser_action": {
     "default_icon": "assets/images/icon_32x32.png",
     "default_title": "Trello Design",
-    "default_popup": "popup.html"
+    "default_popup": "scripts/popup.html"
   },
   "permissions": [
     "storage",
