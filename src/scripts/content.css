@@ -3,6 +3,11 @@
  * https://shin-dev.com
  */
 
+/* Base */
+.window-title {
+  margin-bottom: 6px !important;
+}
+
 /* CardNumber */
 .td-badges .td-badges__badge {
   color: #5e6c84;
@@ -42,6 +47,34 @@
 .td-card-detail-badges .td-card-detail-badges__badge-text {
   font-size: 1rem;
   white-space: nowrap;
+}
+
+/* CopyButtonOnCardLocation */
+.td-card-detail-buttons {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 6px;
+}
+
+.td-card-detail-buttons .td-card-detail-buttons__child {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.td-card-detail-buttons__child[data-copied=true] > *:first-child,
+.td-card-detail-buttons__child:not([data-copied=true]) > *:last-child {
+  display: none;
+}
+
+.td-card-detail-buttons .td-card-detail-buttons__child:last-child {
+  margin-right: 0;
+}
+
+.td-card-detail-buttons .td-card-detail-buttons__button {
+  margin: 0;
+  padding: 1px 4px;
+  width: 6em;
 }
 
 /* チラつき防止のためカバー画像は最初非表示 */

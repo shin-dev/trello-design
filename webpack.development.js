@@ -10,7 +10,7 @@ module.exports = Object.assign({}, config, {
       reloadPage: true,
       entries: {
         contentScript: ['content'],
-        extensionPage: ['options'],
+        extensionPage: ['options', 'popup'],
         background: 'background'
       }
     })

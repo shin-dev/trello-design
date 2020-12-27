@@ -7,6 +7,7 @@ const outputPath = path.join(__dirname, 'dist')
 const outputScriptsPath = path.join(__dirname, 'dist/scripts')
 const context = 'src'
 const srcScriptsContext = 'src/scripts'
+const environment = process.env.NODE_ENV
 
 module.exports = {
   entry: {
@@ -37,8 +38,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{
         context: context,
-        from: 'manifest.json',
-        to: outputPath
+        from: `manifest.${environment}.json`,
+        to: `${outputPath}/manifest.json`
       }, {
         context: context,
         from: 'assets/**/*.*',

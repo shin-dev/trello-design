@@ -1,3 +1,7 @@
+<!--
+  * © 2020 シン合同会社 - SHIN LLC
+  * https://shin-dev.com
+-->
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,16 +12,31 @@
         border: solid 1px #4c5982;
         border-radius: 20px;
         padding: 20px;
-        min-width: 300px;
+        min-width: 340px;
         display: block;
       }
       .title, .title > * {
+        display: inline;
         margin: 0;
         padding: 0;
         font-size: 1.2rem;
         font-weight: bold;
         color: #ffffff;
         text-decoration: underline #607680;
+      }
+      .help {
+        background: #6396e7;
+        color: #ffffff;
+        display: inline-block;
+        margin-left: 6px;
+        padding: 0 4px;
+        border: solid 1px gray;
+        border-radius: 50%;
+      }
+      .title, .help > * {
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
       }
       .table {
         margin-top: 10px;
@@ -44,11 +63,18 @@
       <!-- Other web site -->
       <div id="js-inactive-contents" class="panel" style="display: block">
         <!-- Title -->
-        <h1 class="title">
-          <a href="https://chrome.google.com/webstore/detail/trello-design/bddemgibaehjbclgpppopnlcaohlikki">
-            Trello Design
-          </a>
-        </h1>
+        <header>
+          <h1 class="title">
+            <a href="https://chrome.google.com/webstore/detail/trello-design/bddemgibaehjbclgpppopnlcaohlikki" title="Chrome Webstore">
+              Trello Design
+            </a>
+          </h1>
+          <span class="help">
+            <a href="https://github.com/shin-dev/trello-design/wiki" title="help">
+              ?
+            </a>
+          </span>
+        </header>
         <!-- Contents -->
         <div style="margin-top: 10px">
           <a href="https://trello.com">
@@ -59,11 +85,18 @@
       <!-- Trello web site (https://trello.com/*) -->
       <div id="js-active-contents" class="panel" style="display: none">
         <!-- Title -->
-        <h1 class="title">
-          <a href="https://chrome.google.com/webstore/detail/trello-design/bddemgibaehjbclgpppopnlcaohlikki">
-            Trello Design
-          </a>
-        </h1>
+        <header>
+          <h1 class="title">
+            <a href="https://chrome.google.com/webstore/detail/trello-design/bddemgibaehjbclgpppopnlcaohlikki" title="Chrome Webstore">
+              Trello Design
+            </a>
+          </h1>
+          <span class="help">
+            <a href="https://github.com/shin-dev/trello-design/wiki" title="help">
+              ?
+            </a>
+          </span>
+        </header>
         <!-- Contents -->
         <table class="table" border="0">
           <tr>
@@ -109,6 +142,10 @@
           <tr>
             <td class="label">Show card cover on card list :</td>
             <td><input id="cardCoverEnabled" type="checkbox"></td>
+          </tr>
+          <tr>
+            <td class="label">Show copy button on card detail :</td>
+            <td><input id="copyButtonEnabled" type="checkbox"></td>
           </tr>
           <tr>
             <td></td>
