@@ -18,11 +18,6 @@ export class Application {
     const defaults = Application.createDefaultOptions()
     this.config = Object.assign({}, defaults, options)
 
-    // Trello Board Only
-    // CardList (https://trello.com/b/*)
-    // CardDetail (https://trello.com/c/*)
-    this.updatePath = /^\/[bc]\//
-
     // Instance variables
     this.debug = process.env.NODE_ENV === 'development'
     this.updateId = null
@@ -36,6 +31,28 @@ export class Application {
     console.log('[Trello Design] ' + message)
   }
 
+  // 有効なURLか
+  // (ボードのみ更新処理を有効にするための判定)
+  //
+  // e.g.
+  //   CardList (https://trello.com/b/*)
+  //   CardDetail (https://trello.com/c/*)
+  //
+  // @return {Boolean}
+  isValidLocation() {
+    return /^\/[bc]\//.test(window.location.pathname)
+  }
+
+  // @return {Boolean}
+  isBoardLocation() {
+    return /^\/[b]\//.test(window.location.pathname)
+  }
+
+  // @return {Boolean}
+  isCardLocation() {
+    return /^\/[c]\//.test(window.location.pathname)
+  }
+
   start() {
     this.update()
     this.updateId = setInterval(() => this.update(), this.config.updateInterval)
@@ -43,7 +60,7 @@ export class Application {
 
   update() {
     // Trello Board Only
-    if (!this.updatePath.test(window.location.pathname)) {
+    if (!this.isValidLocation()) {
       return
     }
 
@@ -63,6 +80,8 @@ export class Application {
       const cardLabel = $(cardLabels[i])
       this.updateCardColor(cardLabel)
     }
+
+    this.updateCardNumberOnCardLocation()
   }
 
   updateStyle(force = false) {
@@ -109,19 +128,16 @@ export class Application {
   updateCardNumber(card) {
     const badges = card.closest('.list-card').find('.badges')
 
-    // No.が変更されることはないので追加済みなら処理しない
-    const customBadges = badges.find('.js-td-badges')
+    // No.が変更されることはないので追加済みなら処理を行わない
+    const className = 'js-td-badges'
+    const customBadges = badges.find(`.${className}`)
     if (customBadges.length) {
-      // リセット
       if (!this.config.cardNumberEnabled) {
         customBadges.remove()
       }
       return
     }
-
-    // リセット
     if (!this.config.cardNumberEnabled) {
-      customBadges.remove()
       return
     }
 
@@ -136,17 +152,17 @@ export class Application {
 
     // 要素を追加
     // (Power-Upは`js-plugin-badges`という名前なので被らないようにする)
-    badges.prepend('' +
-      '<span class="td-badges js-td-badges">' +
-      '<span>' +
-      '<div class="td-badges__badge">' +
-      '<span class="td-badges__badge-text">' +
-      'No.' + id +
-      '</span>' +
-      '</div>' +
-      '</span>' +
-      '</div>'
-    )
+    badges.prepend(`
+      <span class="td-badges ${className}">
+        <span>
+          <div class="td-badges__badge">
+            <span class="td-badges__badge-text">
+              No. ${id}
+            </span>
+          </div>
+        </span>
+      </span>
+    `)
   }
 
   updateCardColor(cardLabel) {
@@ -175,6 +191,56 @@ export class Application {
       this.config.cardColorOpacity + '' +
       ')'
     listCard.css({'background-color': cssColor})
+  }
+
+  updateCardNumberOnCardLocation() {
+    if (!this.isCardLocation()) {
+      return
+    }
+
+    const parent = $('.js-card-detail-header')
+
+    // No.が変更されることはないので追加済みなら処理を行わない
+    const className = 'js-td-card-detail-badges'
+    const customBadges = parent.find(`.${className}`)
+    if (customBadges.length) {
+      if (!this.config.cardNumberEnabled) {
+        customBadges.remove()
+      }
+      return
+    }
+    if (!this.config.cardNumberEnabled) {
+      return
+    }
+
+    // idを取得 (locationから取得)
+    //
+    // WARNING:
+    //   取得できない場合があるのでその場合は次回更新時に回す
+    //
+    // e.g. url = "/c/abc123/45-no45-XXXX"
+    const url = window.location.pathname
+    if (!url) {
+      return
+    }
+    const urlTokens = url.split('/')
+    if (urlTokens.length < 3) {
+      return
+    }
+    const pathname = urlTokens.pop()
+    const id = pathname.split('-')[0]
+
+    // 要素を追加
+    // (Power-Upは`js-plugin-badges`という名前なので被らないようにする)
+    parent.append(`
+      <div class="td-card-detail-badges ${className}">
+        <div class="td-card-detail-badges__badge">
+          <span class="td-card-detail-badges__badge-text">
+              No. ${id}
+          </span>
+        </div>
+      </div>
+    `)
   }
 
   // popup.jsからのコールバック
