@@ -10,7 +10,8 @@ export class Application {
       cardCoverEnabled: true,
       windowSizeAdjustment: true,
       windowSize: 80,
-      windowSizeMax: 960
+      windowSizeMax: 960,
+      copyButtonEnabled: true
     }
   }
 
@@ -82,6 +83,7 @@ export class Application {
     }
 
     this.updateCardNumberOnCardLocation()
+    this.updateCopyButtonOnCardLocation()
   }
 
   updateStyle(force = false) {
@@ -236,11 +238,96 @@ export class Application {
       <div class="td-card-detail-badges ${className}">
         <div class="td-card-detail-badges__badge">
           <span class="td-card-detail-badges__badge-text">
-              No. ${id}
+            No. ${id}
           </span>
         </div>
       </div>
     `)
+  }
+
+  updateCopyButtonOnCardLocation() {
+    if (!this.isCardLocation()) {
+      return
+    }
+
+    const parent = $('.js-card-detail-header')
+
+    // No.が変更されることはないので追加済みなら処理を行わない
+    const className = 'js-td-card-detail-copy-buttons'
+    const target = parent.find(`.${className}`)
+    if (target.length) {
+      if (!this.config.copyButtonEnabled) {
+        target.remove()
+      }
+      return
+    }
+    if (!this.config.copyButtonEnabled) {
+      return
+    }
+
+    // idを取得 (locationから取得)
+    //
+    // WARNING:
+    //   取得できない場合があるのでその場合は次回更新時に回す
+    //
+    // e.g. url = "/c/abc123/45-no45-XXXX"
+    const url = window.location.pathname
+    if (!url) {
+      return
+    }
+    const urlTokens = url.split('/')
+    if (urlTokens.length < 3) {
+      return
+    }
+    // 共有リンクの取得 (末尾のタイトルは不要なので除外したURLを返す)
+    const idAndTitle = urlTokens.pop()
+    const linkPath = url.replace(new RegExp(`/${idAndTitle}$`), '')
+    const linkURL = `https://trello.com/${linkPath}`
+    // タイトルはヘッダーから取得
+    const title = $('.js-title-helper').text()
+
+    // 要素を追加
+    // (Power-Upは`js-plugin-badges`という名前なので被らないようにする)
+    parent.append(`
+      <div class="td-card-detail-buttons ${className}">
+        <div class="td-card-detail-buttons__child" data-copied="false">
+          <button class="td-card-detail-buttons__button js-copy" data-content="${linkURL}">
+            Copy Link
+          </button>
+          <button class="td-card-detail-buttons__button" style="color:green">
+            Copied!
+          </button>
+        </div>
+        <div class="td-card-detail-buttons__child" data-copied="false">
+          <button class="td-card-detail-buttons__button js-copy" data-content="${title}">
+            Copy Title
+          </button>
+          <button class="td-card-detail-buttons__button" style="color:green">
+            Copied!
+          </button>
+        </div>
+      </div>
+    `)
+    parent.find(`.${className}`).on('click', '.js-copy', (e) => {
+      const element = $(e.target)
+      const parent = element.parent()
+      const content = element.data('content')
+
+      const clipboard = $('<textarea></textarea>')
+      clipboard.val(content)
+      $('body').append(clipboard)
+
+      clipboard.select()
+      document.execCommand('copy')
+      clipboard.remove()
+
+      parent.data('copied', 'true')
+      parent.attr('data-copied', 'true')
+      setInterval(() => {
+        parent.data('copied', 'false')
+        parent.attr('data-copied', 'false')
+      }, 700)
+    })
   }
 
   // popup.jsからのコールバック

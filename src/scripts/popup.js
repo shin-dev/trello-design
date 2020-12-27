@@ -67,7 +67,8 @@ window.onload = () => {
           'cardCoverEnabled',
           'windowSizeAdjustment',
           'windowSize',
-          'windowSizeMax'
+          'windowSizeMax',
+          'copyButtonEnabled'
         ]
         const config = Object.assign({}, result.defaults, result.options)
         const defaults = {}
@@ -84,6 +85,7 @@ window.onload = () => {
         const windowSizeAdjustment = document.getElementById('windowSizeAdjustment')
         const windowSize = document.getElementById('windowSize')
         const windowSizeMax = document.getElementById('windowSizeMax')
+        const copyButtonEnabled = document.getElementById('copyButtonEnabled')
         const reset = document.getElementById('reset')
 
         function apply() {
@@ -95,6 +97,7 @@ window.onload = () => {
           windowSizeAdjustment.checked = options.windowSizeAdjustment
           windowSize.value = options.windowSize
           windowSizeMax.value = options.windowSizeMax
+          copyButtonEnabled.checked = options.copyButtonEnabled
         }
         apply()
 
@@ -133,6 +136,10 @@ window.onload = () => {
         windowSizeMax.onchange = (element) => {
           validateNumber(element, defaults['windowSizeMax'])
           options.windowSizeMax = element.target.value
+          refresh()
+        }
+        copyButtonEnabled.onchange = (element) => {
+          options.copyButtonEnabled = element.target.checked
           refresh()
         }
         reset.onclick = () => {

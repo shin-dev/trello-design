@@ -10,6 +10,9 @@ git@github.com:shin-dev/trello-design.git
 ### Wiki
 git@github.com:shin-dev/trello-design.wiki.git
 
+### Chrome Webstore
+https://chrome.google.com/webstore/detail/trello-design/bddemgibaehjbclgpppopnlcaohlikki
+
 ## Branches
 
 - master  
