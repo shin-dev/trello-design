@@ -31,6 +31,14 @@ $ yarn install
 
 # Generate a "dist" directory and watching the src directory files.
 $ yarn run dev
+
+# if you not workings HMR, refer to the following.
+# FYI: https://github.com/rubenspgcavalcante/webpack-extension-reloader/issues/98
+#
+# "background": {
+#   "scripts": ["scripts/background.js"],
+#   "persistent": true # required
+# }
 ```
 
 ## Release

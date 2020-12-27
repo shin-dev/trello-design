@@ -25,6 +25,25 @@
   white-space: nowrap;
 }
 
+/* CardNumberOnCardLocation */
+.td-card-detail-badges {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.td-card-detail-badges .td-card-detail-badges__badge {
+  color: #5e6c84;
+  max-width: 100%;
+  min-height: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.td-card-detail-badges .td-card-detail-badges__badge-text {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
 /* チラつき防止のためカバー画像は最初非表示 */
 .js-card-cover {
   display: none;
