@@ -34,15 +34,25 @@ $ yarn install
 
 # Generate a "dist" directory and watching the src directory files.
 $ yarn run dev
-
-# if you not workings HMR, refer to the following.
-# FYI: https://github.com/rubenspgcavalcante/webpack-extension-reloader/issues/98
-#
-# "background": {
-#   "scripts": ["scripts/background.js"],
-#   "persistent": true # required
-# }
 ```
+
+if you not workings HMR, refer to the following.  
+FYI: https://github.com/rubenspgcavalcante/webpack-extension-reloader/issues/98
+
+```
+# manifest.json
+{
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": true # required
+  }
+}
+```
+
+also There are two reasons for separating the manifest files.
+
+1. for use HMR in the development environment. (HMR require background specified)
+1. popup slowed down when background was specified.
 
 ## Release
 
