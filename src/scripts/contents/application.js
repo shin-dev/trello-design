@@ -125,7 +125,7 @@ export class Application {
           padding-right: 16px !important;
         }
         .window .current.markeddown > *,
-        .window .action-comment.markeddown current-comment > * {
+        .window .action-comment.markeddown .current-comment > * {
           line-height: ${this.config.lineHeight}px;
         }
         .window .current.markeddown > *:not(:last-child),
