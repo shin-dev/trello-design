@@ -1,3 +1,7 @@
+/*
+ * © 2020 シン合同会社 - SHIN LLC
+ * https://shin-dev.com
+ */
 window.onload = () => {
   // Initialize
   const links = document.getElementsByTagName('a')
@@ -25,7 +29,7 @@ window.onload = () => {
       // Initialize
       chrome.storage.local.get(null, (result) => {
         // failsafe
-        if(result == null) {
+        if (result == null) {
           return
         }
 
@@ -44,13 +48,13 @@ window.onload = () => {
           const min = Number(target.min)
           const max = Number(target.max)
           const value = Number(target.value)
-          if(value === Number.NaN) {
+          if (value === Number.NaN) {
             target.value = defaultValue
           }
-          else if(value < min) {
+          else if (value < min) {
             target.value = min
           }
-          else if(value > max) {
+          else if (value > max) {
             target.value = max
           }
         }
@@ -63,7 +67,10 @@ window.onload = () => {
           'cardCoverEnabled',
           'windowSizeAdjustment',
           'windowSize',
-          'windowSizeMax'
+          'windowSizeMax',
+          'lineHeight',
+          'blankLineHeight',
+          'copyButtonEnabled'
         ]
         const config = Object.assign({}, result.defaults, result.options)
         const defaults = {}
@@ -80,6 +87,9 @@ window.onload = () => {
         const windowSizeAdjustment = document.getElementById('windowSizeAdjustment')
         const windowSize = document.getElementById('windowSize')
         const windowSizeMax = document.getElementById('windowSizeMax')
+        const lineHeight = document.getElementById('lineHeight')
+        const blankLineHeight = document.getElementById('blankLineHeight')
+        const copyButtonEnabled = document.getElementById('copyButtonEnabled')
         const reset = document.getElementById('reset')
 
         function apply() {
@@ -91,6 +101,9 @@ window.onload = () => {
           windowSizeAdjustment.checked = options.windowSizeAdjustment
           windowSize.value = options.windowSize
           windowSizeMax.value = options.windowSizeMax
+          lineHeight.value = options.lineHeight
+          blankLineHeight.value = options.blankLineHeight
+          copyButtonEnabled.checked = options.copyButtonEnabled
         }
         apply()
 
@@ -129,6 +142,20 @@ window.onload = () => {
         windowSizeMax.onchange = (element) => {
           validateNumber(element, defaults['windowSizeMax'])
           options.windowSizeMax = element.target.value
+          refresh()
+        }
+        lineHeight.onchange = (element) => {
+          validateNumber(element, defaults['lineHeight'])
+          options.lineHeight = element.target.value
+          refresh()
+        }
+        blankLineHeight.onchange = (element) => {
+          validateNumber(element, defaults['blankLineHeight'])
+          options.blankLineHeight = element.target.value
+          refresh()
+        }
+        copyButtonEnabled.onchange = (element) => {
+          options.copyButtonEnabled = element.target.checked
           refresh()
         }
         reset.onclick = () => {
