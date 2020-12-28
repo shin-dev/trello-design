@@ -68,6 +68,8 @@ window.onload = () => {
           'windowSizeAdjustment',
           'windowSize',
           'windowSizeMax',
+          'lineHeight',
+          'blankLineHeight',
           'copyButtonEnabled'
         ]
         const config = Object.assign({}, result.defaults, result.options)
@@ -85,6 +87,8 @@ window.onload = () => {
         const windowSizeAdjustment = document.getElementById('windowSizeAdjustment')
         const windowSize = document.getElementById('windowSize')
         const windowSizeMax = document.getElementById('windowSizeMax')
+        const lineHeight = document.getElementById('lineHeight')
+        const blankLineHeight = document.getElementById('blankLineHeight')
         const copyButtonEnabled = document.getElementById('copyButtonEnabled')
         const reset = document.getElementById('reset')
 
@@ -97,6 +101,8 @@ window.onload = () => {
           windowSizeAdjustment.checked = options.windowSizeAdjustment
           windowSize.value = options.windowSize
           windowSizeMax.value = options.windowSizeMax
+          lineHeight.value = options.lineHeight
+          blankLineHeight.value = options.blankLineHeight
           copyButtonEnabled.checked = options.copyButtonEnabled
         }
         apply()
@@ -136,6 +142,16 @@ window.onload = () => {
         windowSizeMax.onchange = (element) => {
           validateNumber(element, defaults['windowSizeMax'])
           options.windowSizeMax = element.target.value
+          refresh()
+        }
+        lineHeight.onchange = (element) => {
+          validateNumber(element, defaults['lineHeight'])
+          options.lineHeight = element.target.value
+          refresh()
+        }
+        blankLineHeight.onchange = (element) => {
+          validateNumber(element, defaults['blankLineHeight'])
+          options.blankLineHeight = element.target.value
           refresh()
         }
         copyButtonEnabled.onchange = (element) => {

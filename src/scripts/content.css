@@ -4,7 +4,7 @@
  */
 
 /* Base */
-.window-title {
+.window .window-header .window-title {
   margin-bottom: 6px !important;
 }
 

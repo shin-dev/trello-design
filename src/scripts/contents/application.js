@@ -11,6 +11,8 @@ export class Application {
       windowSizeAdjustment: true,
       windowSize: 80,
       windowSizeMax: 960,
+      lineHeight: 20,
+      blankLineHeight: 16,
       copyButtonEnabled: true
     }
   }
@@ -110,17 +112,25 @@ export class Application {
           margin: 20px !important;
           border-radius: 8px;
         }
-        .window-main-col {
+        .window .window-main-col {
           width: calc(80% - 32px) !important;
           margin: 0 !important;
           padding-left: 16px !important;
           padding-right: 16px !important;
         }
-        .window-sidebar {
+        .window .window-sidebar {
           width: calc(20% - 32px) !important;
           margin: 0 !important;
           padding-left: 16px !important;
           padding-right: 16px !important;
+        }
+        .window .current.markeddown > *,
+        .window .action-comment.markeddown current-comment > * {
+          line-height: ${this.config.lineHeight}px;
+        }
+        .window .current.markeddown > *:not(:last-child),
+        .window .action-comment.markeddown .current-comment > *:not(:last-child) {
+          margin-bottom: ${this.config.blankLineHeight}px;
         }
       `
     }
@@ -282,7 +292,7 @@ export class Application {
     // 共有リンクの取得 (末尾のタイトルは不要なので除外したURLを返す)
     const idAndTitle = urlTokens.pop()
     const linkPath = url.replace(new RegExp(`/${idAndTitle}$`), '')
-    const linkURL = `https://trello.com/${linkPath}`
+    const linkURL = `https://trello.com${linkPath}`
     // タイトルはヘッダーから取得
     const title = $('.js-title-helper').text()
 
@@ -323,7 +333,7 @@ export class Application {
 
       parent.data('copied', 'true')
       parent.attr('data-copied', 'true')
-      setInterval(() => {
+      setTimeout(() => {
         parent.data('copied', 'false')
         parent.attr('data-copied', 'false')
       }, 700)
@@ -339,7 +349,9 @@ export class Application {
       (options.cardCoverEnabled != null && this.config.cardCoverEnabled !== options.cardCoverEnabled) ||
       (options.windowSizeAdjustment != null && this.config.windowSizeAdjustment !== options.windowSizeAdjustment) ||
       (options.windowSize != null && this.config.windowSize !== options.windowSize) ||
-      (options.windowSizeMax != null && this.config.windowSizeMax !== options.windowSizeMax)
+      (options.windowSizeMax != null && this.config.windowSizeMax !== options.windowSizeMax) ||
+      (options.lineHeight != null && this.config.lineHeight !== options.lineHeight) ||
+      (options.blankLineHeight != null && this.config.blankLineHeight !== options.blankLineHeight)
     )
     this.config = Object.assign({}, this.config, options)
 
